@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{#    {{ form(form) }}#}
+
+    <h3>Search for people who speak any of these languages: {{ languages|join(',') }}</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Speaks</th>
+            <th>Visited</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for person in persons %}
+            <tr>
+                <td>{{ person.name }}</td>
+                <td>{{ person.info.languages|join(',') }}</td>
+                <td>{{ person.info.visited|join(',') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
