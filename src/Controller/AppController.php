@@ -14,7 +14,7 @@ class AppController extends AbstractController
     #[Route('/', name: 'app_app')]
     public function index(Request $request, PersonRepository $personRepository): Response
     {
-        $defaults = ['languages' => 'en', 'countries' => 'US'];
+        $defaults = [ 'languages' => 'en', 'countries' => 'US' ];
         $form = $this->createForm(SearchType::class, $defaults);
         $form->handleRequest($request);
         $queryBuilder = $personRepository->createQueryBuilder('p');
@@ -27,11 +27,18 @@ class AppController extends AbstractController
             $defaults = $form->getData();
         }
 
+        $filters = explode(',', $defaults['languages']);
+        $orX = $queryBuilder->expr()->orX();
+        foreach ($filters as $filter) {
+            $orX->add($queryBuilder->expr()->eq("JSONB_EXISTS(p.info, '" . $filter . "')", 'true'));
+        }
+        $queryBuilder->where($orX);
+
         return $this->render('app/index.html.twig', [
-            'languages' => $defaults['languages'],
-            'countries' => $defaults['countries'],
-            'form' => $form->createView(),
-            'persons' => $queryBuilder->getQuery()->getResult(),
+            'languages'       => $defaults['languages'],
+            'countries'       => $defaults['countries'],
+            'form'            => $form->createView(),
+            'persons'         => $queryBuilder->getQuery()->getResult(),
             'controller_name' => 'AppController',
         ]);
     }
