@@ -23,11 +23,13 @@ class AppController extends AbstractController
 
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
-            $languages = explode(',', $form->get('languages')->getData());
+//            $languages = explode(',', $form->get('languages')->getData());
+            $defaults = $form->getData();
         }
 
         return $this->render('app/index.html.twig', [
-            'languages' => $languages,
+            'languages' => $defaults['languages'],
+            'countries' => $defaults['countries'],
             'form' => $form->createView(),
             'persons' => $queryBuilder->getQuery()->getResult(),
             'controller_name' => 'AppController',

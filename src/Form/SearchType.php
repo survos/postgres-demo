@@ -14,10 +14,13 @@ class SearchType extends AbstractType
         $builder
             ->add('languages', null, [
                 'required' => false,
+                'help' => "comma-delimited list of language codes"
             ])
-            ->add('visited', null, [
-                'required' => false
-            ])
+//            ->add('visited', null, [
+//                'required' => false,
+//                'help' => "comma-delimited list of alpha-2 country codes"
+//
+//            ])
             ->add('search', SubmitType::class)
         ;
     }

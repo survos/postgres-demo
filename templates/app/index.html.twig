@@ -2,7 +2,9 @@
 
 {% block body %}
 
-{#    {{ form(form) }}#}
+    {{ form_start(form) }}
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
 
     <h3>Search for people who speak any of these languages: {{ languages|join(',') }}</h3>
     <table>
@@ -10,15 +12,15 @@
         <tr>
             <th>Name</th>
             <th>Speaks</th>
-            <th>Visited</th>
+{#            <th>Visited</th>#}
         </tr>
         </thead>
         <tbody>
-        {% for person in persons %}
+        {% for person in persons|slice(0, 20) %}
             <tr>
                 <td>{{ person.name }}</td>
                 <td>{{ person.info.languages|join(',') }}</td>
-                <td>{{ person.info.visited|join(',') }}</td>
+{#                <td>{{ person.info.visited|join(',') }}</td>#}
             </tr>
         {% endfor %}
         </tbody>
