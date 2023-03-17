@@ -20,11 +20,16 @@ class AppController extends AbstractController
         $queryBuilder = $personRepository->createQueryBuilder('p');
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $defaults = $form->getData();
+            $queryBuilder->select("p.name, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, p.info");
+//            dd($queryBuilder->getQuery()->getResult()[0]);
+//            $queryBuilder->andWhere("JSON_GET_FIELD_AS_TEXT(p.info, 'languages') LIKE :fieldValue")
+//                ->setParameter('fieldValue', '%' . $defaults['languages'] . '%s');
+//            dd($queryBuilder->getQuery()->getSQL(), $queryBuilder->getParameter('fieldValue'));
 
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
 //            $languages = explode(',', $form->get('languages')->getData());
-            $defaults = $form->getData();
         }
 
         return $this->render('app/index.html.twig', [

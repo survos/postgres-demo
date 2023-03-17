@@ -12,6 +12,7 @@
         <tr>
             <th>Name</th>
             <th>Speaks</th>
+            <th>->></th>
 {#            <th>Visited</th>#}
         </tr>
         </thead>
@@ -20,7 +21,7 @@
             <tr>
                 <td>{{ person.name }}</td>
                 <td>{{ person.info.languages|join(',') }}</td>
-{#                <td>{{ person.info.visited|join(',') }}</td>#}
+                <td>{{ person.languagesText|default('~') }}</td>
             </tr>
         {% endfor %}
         </tbody>

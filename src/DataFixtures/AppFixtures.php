@@ -25,7 +25,7 @@ class AppFixtures extends Fixture
         $brands = ['toyota','vw','bmw', 'audi','chevy'];
         $countries = Countries::getCountryCodes();
         $languages = Languages::getLanguageCodes();
-        for ($i=0; $i<10; $i++) {
+        for ($i=0; $i<500; $i++) {
             $speaks = array_rand(array_flip($languages), rand(1, 3));
             if (!is_array($speaks)) {
                 $speaks = [$speaks];
