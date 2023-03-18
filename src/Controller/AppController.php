@@ -31,19 +31,16 @@ class AppController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $defaults = $form->getData();
-//            $queryBuilder->andWhere("JSON_GET_FIELD_AS_TEXT(p.info, 'languages') LIKE :fieldValue")
-//                ->setParameter('fieldValue', '%' . $defaults['languages'] . '%s');
-//            dd($queryBuilder->getQuery()->getSQL(), $queryBuilder->getParameter('fieldValue'));
             $field = $defaults['languages'];
-            $queryBuilder->select("p.name,  (JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}')) as speaks, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
-//            $queryBuilder->andWhere("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))");
-            $queryBuilder->andWhere("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))=TRUE");
-//            $queryBuilder->andWhere("x=TRUE");
-//        dd($queryBuilder->getQuery()->getResult()[0], $queryBuilder->getQuery()->getSQL());
+            $expr = $queryBuilder->expr()->orX();
 
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-//            $languages = explode(',', $form->get('languages')->getData());
+            foreach (explode(',',$field) as $lang) {
+                $expr->add("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$lang}'))=TRUE");
+            }
+
+            $queryBuilder->select("p.name, 
+             (JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}')) as speaks, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
+            $queryBuilder->andWhere($expr);
         }
 
         return $this->render('app/index.html.twig', [
