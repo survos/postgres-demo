@@ -35,7 +35,7 @@ class AppController extends AbstractController
 //                ->setParameter('fieldValue', '%' . $defaults['languages'] . '%s');
 //            dd($queryBuilder->getQuery()->getSQL(), $queryBuilder->getParameter('fieldValue'));
 //            $field = $defaults['languages'];
-            $languages = explode(',', $defaults['languages']);
+            $languages = $defaults['languages']? explode(',', $defaults['languages']) : [];
             $andX = $queryBuilder->expr()->andX();
             foreach ($languages as $language) {
                 $andX->add($queryBuilder->expr()->eq("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$language}'))", 'true'));
@@ -43,7 +43,9 @@ class AppController extends AbstractController
             $queryBuilder->select("p.name, p.info");
 //            $queryBuilder->andWhere("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))");
 //            $queryBuilder->where("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))=true");
-            $queryBuilder->where($andX);
+            if(count($languages)) {
+                $queryBuilder->where($andX);
+            }
 //            $queryBuilder->andWhere("x=TRUE");
 //        dd($queryBuilder->getQuery()->getResult()[0], $queryBuilder->getQuery()->getSQL());
 
