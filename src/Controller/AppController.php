@@ -14,7 +14,7 @@ class AppController extends AbstractController
     #[Route('/', name: 'app_app')]
     public function index(Request $request, PersonRepository $personRepository): Response
     {
-        $defaults = ['languages' => 'en', 'countries' => 'US'];
+        $defaults = [ 'languages' => 'en', 'countries' => 'US' ];
         $form = $this->createForm(SearchType::class, $defaults);
         $form->handleRequest($request);
         $queryBuilder = $personRepository->createQueryBuilder('p');
@@ -37,7 +37,7 @@ class AppController extends AbstractController
             $field = $defaults['languages'];
             $queryBuilder->select("p.name,  (JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}')) as speaks, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
 //            $queryBuilder->andWhere("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))");
-            $queryBuilder->andWhere("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))=TRUE");
+            $queryBuilder->where("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))=true");
 //            $queryBuilder->andWhere("x=TRUE");
 //        dd($queryBuilder->getQuery()->getResult()[0], $queryBuilder->getQuery()->getSQL());
 
