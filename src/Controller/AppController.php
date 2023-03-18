@@ -18,7 +18,10 @@ class AppController extends AbstractController
         $form = $this->createForm(SearchType::class, $defaults);
         $form->handleRequest($request);
         $queryBuilder = $personRepository->createQueryBuilder('p');
-        $queryBuilder->select("p.name, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
+        $field = 'languages';
+        $queryBuilder->select("json_exists(p.info), '$field'");
+
+//        $queryBuilder->select("p.name, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
 
         if ($form->isSubmitted() && $form->isValid()) {
             $defaults = $form->getData();
