@@ -18,10 +18,10 @@ class AppController extends AbstractController
         $form = $this->createForm(SearchType::class, $defaults);
         $form->handleRequest($request);
         $queryBuilder = $personRepository->createQueryBuilder('p');
+        $queryBuilder->select("p.name, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
 
         if ($form->isSubmitted() && $form->isValid()) {
             $defaults = $form->getData();
-            $queryBuilder->select("p.name, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, p.info");
 //            dd($queryBuilder->getQuery()->getResult()[0]);
 //            $queryBuilder->andWhere("JSON_GET_FIELD_AS_TEXT(p.info, 'languages') LIKE :fieldValue")
 //                ->setParameter('fieldValue', '%' . $defaults['languages'] . '%s');
