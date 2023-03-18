@@ -18,17 +18,28 @@ class AppController extends AbstractController
         $form = $this->createForm(SearchType::class, $defaults);
         $form->handleRequest($request);
         $queryBuilder = $personRepository->createQueryBuilder('p');
-        $field = 'languages';
-        $queryBuilder->select("json_exists(p.info), '$field'");
+//        $field = 'languages';
+//        $queryBuilder->select("JSONB_EXISTS(p.info, '$field')");
+        $field = $defaults['languages'];
 
-//        $queryBuilder->select("p.name, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
+        $queryBuilder->select("p.name,
+          (JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}')) as speaks, 
+        
+        JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, 
+        JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
+//            dump($queryBuilder->getQuery()->getSQL(), $queryBuilder->getQuery()->getResult()[0]);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $defaults = $form->getData();
-//            dd($queryBuilder->getQuery()->getResult()[0]);
 //            $queryBuilder->andWhere("JSON_GET_FIELD_AS_TEXT(p.info, 'languages') LIKE :fieldValue")
 //                ->setParameter('fieldValue', '%' . $defaults['languages'] . '%s');
 //            dd($queryBuilder->getQuery()->getSQL(), $queryBuilder->getParameter('fieldValue'));
+            $field = $defaults['languages'];
+            $queryBuilder->select("p.name,  (JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}')) as speaks, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
+//            $queryBuilder->andWhere("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))");
+            $queryBuilder->andWhere("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))=TRUE");
+//            $queryBuilder->andWhere("x=TRUE");
+//        dd($queryBuilder->getQuery()->getResult()[0], $queryBuilder->getQuery()->getSQL());
 
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated

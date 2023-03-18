@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
         $colors =  ['red','white','blue','green','brown','black','yellow'];
         $brands = ['toyota','vw','bmw', 'audi','chevy'];
         $countries = Countries::getCountryCodes();
-        $languages = Languages::getLanguageCodes();
+        $languages = array_slice(Languages::getLanguageCodes(), 0, 10);
         for ($i=0; $i<500; $i++) {
             $speaks = array_rand(array_flip($languages), rand(1, 3));
             if (!is_array($speaks)) {

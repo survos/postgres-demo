@@ -17,12 +17,12 @@
         </tr>
         </thead>
         <tbody>
-        {% for person in persons|slice(0, 20) %}
+        {% for person in persons|slice(0, 30) %}
             <tr>
                 <td>{{ person.name }}</td>
+                <td>{{ person.speaks ? 'YES' : 'NO' }}</td>
                 <td>{{ person.info.languages|join(',') }}</td>
                 <td>{{ person.languagesText|default('~') }}</td>
-                <td>{{ person.languagesArray }}</td>
             </tr>
         {% endfor %}
         </tbody>
