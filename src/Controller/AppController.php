@@ -36,7 +36,7 @@ class AppController extends AbstractController
 //            dd($queryBuilder->getQuery()->getSQL(), $queryBuilder->getParameter('fieldValue'));
 //            $field = $defaults['languages'];
             $languages = explode(',', $defaults['languages']);
-            $andX = $queryBuilder->expr()->andX();
+            $andX = $queryBuilder->expr()->orX();
             foreach ($languages as $language) {
                 $andX->add($queryBuilder->expr()->eq("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$language}'))", 'true'));
             }
