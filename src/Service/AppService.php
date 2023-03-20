@@ -25,5 +25,5 @@ use function Aws\map;
 class AppService
 {
     public const LANGUAGES = ['en','fr','es','ru','pt','de'];
-
+    public const MAX_PERSONS = 500;
 }

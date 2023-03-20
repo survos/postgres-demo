@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Car;
 use App\Entity\Person;
 use App\Factory\CarFactory;
+use App\Service\AppService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Core\Color;
@@ -23,7 +24,7 @@ class AppFixtures extends Fixture
         $brands = ['toyota','vw','bmw', 'audi','chevy'];
         $countries = Countries::getCountryCodes();
         $languages = ['en','fr','es','ru','pt','de'];
-        for ($i=0; $i<500; $i++) {
+        for ($i=0; $i<AppService::MAX_PERSONS; $i++) {
             $speaks = array_rand(array_flip($languages), rand(1, 3));
             if (!is_array($speaks)) {
                 $speaks = [$speaks];

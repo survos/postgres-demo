@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\SearchType;
 use App\Repository\PersonRepository;
+use App\Service\AppService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,6 +67,7 @@ class AppController extends AbstractController
             'countries' => $defaults['countries'],
             'form' => $form->createView(),
             'sql' => $sql,
+            'max' => AppService::MAX_PERSONS,
             'persons' => $queryBuilder->getQuery()->getResult(),
             'controller_name' => 'AppController',
         ]);

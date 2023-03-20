@@ -10,8 +10,6 @@ docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v 
 `
 Clone the repo and load the data
 ```bash
-docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres15:/var/lib/postgresql/data postgres:15
-
 git clone git@github.com:tacman/postgres-demo.git
 cd postgres-demo/
 composer install
