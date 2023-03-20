@@ -10,9 +10,13 @@ docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v 
 git clone git@github.com:tacman/postgres-demo.git
 cd postgres-demo/
 composer install
+yarn install && yarn dev
 bin/console d:database:create
 bin/console d:schema:update --force --complete
 bin/console doctrine:fixtures:load -n
+
+# 
+symfony 
 php -S localhost:8300 -t public/
 ```
 

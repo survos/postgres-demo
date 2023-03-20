@@ -17,14 +17,12 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
 
         $faker = Factory::create();
         $colors =  ['red','white','blue','green','brown','black','yellow'];
         $brands = ['toyota','vw','bmw', 'audi','chevy'];
         $countries = Countries::getCountryCodes();
-        $languages = array_slice(Languages::getLanguageCodes(), 0, 10);
+        $languages = ['en','fr','es','ru','pt','de'];
         for ($i=0; $i<500; $i++) {
             $speaks = array_rand(array_flip($languages), rand(1, 3));
             if (!is_array($speaks)) {

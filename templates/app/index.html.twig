@@ -2,12 +2,22 @@
 
 {% block body %}
 
+    <h1>Jsonb Playground</h1>
+
+    <p>
+        A simple repo showing jsonb and/or.
+    </p>
+
+    <code>
+        {{ sql }}
+    </code>
+
     {{ form_start(form) }}
     {{ form_rest(form) }}
     {{ form_end(form) }}
 
     <h3>Search for people who speak any of these languages: {{ languages|join(',') }}</h3>
-    <table>
+    <table class="table">
         <thead>
         <tr>
             <th>Name</th>
@@ -20,7 +30,7 @@
         {% for person in persons|slice(0, 30) %}
             <tr>
                 <td>{{ person.name }}</td>
-                <td>{{ person.info.languages|join(',') }}</td>
+                <td>{{ person.info.languages|map(l => l|language_name)|join(',') }}</td>
                 <td>{{ person.languagesText|default('~') }}</td>
             </tr>
         {% endfor %}
