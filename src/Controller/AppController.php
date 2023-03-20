@@ -30,7 +30,8 @@ class AppController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $defaults = $form->getData();
-            $allLanguages = $defaults['all'];
+        }
+        $allLanguages = $defaults['all'];
             $filter = $allLanguages ? $queryBuilder->expr()->andX() : $queryBuilder->expr()->orX();
 
             //            $queryBuilder->andWhere("JSON_GET_FIELD_AS_TEXT(p.info, 'languages') LIKE :fieldValue")
@@ -43,7 +44,6 @@ class AppController extends AbstractController
                 $filter->add($queryBuilder->expr()->eq("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$language}'))", 'true'));
             }
             $queryBuilder->where($filter);
-            $sql = $queryBuilder->getQuery()->getSQL();
 //            $queryBuilder->select("p.name, p.info");
 //            $queryBuilder->andWhere("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))");
 //            $queryBuilder->where("(JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}'))=true");
@@ -59,7 +59,7 @@ class AppController extends AbstractController
 //            $queryBuilder->select("p.name,
 //             (JSONB_EXISTS(JSON_GET_FIELD(p.info, 'languages'), '{$field}')) as speaks, JSON_GET_FIELD_AS_TEXT(p.info, 'languages') as languagesText, JSON_GET_FIELD(p.info, 'languages') as languagesArray, p.info");
 //            $queryBuilder->andWhere($expr);
-        }
+        $sql = $queryBuilder->getQuery()->getSQL();
 
         return $this->render('app/index.html.twig', [
             'languages' => $defaults['languages'],
