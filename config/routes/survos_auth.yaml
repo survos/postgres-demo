@@ -1,0 +1,10 @@
+survos_auth:
+#  resource: '@SurvosAuthBundle/Controller/OAuthController.php'
+  resource: '@SurvosAuthBundle/config/routes.xml'
+  prefix: '/auth'
+#  type: attribute
+
+#easy_admin_bundle:
+#    resource: '@EasyAdminBundle/Controller/EasyAdminController.php'
+#    prefix: /admin
+#    type: annotation
