@@ -72,4 +72,20 @@ class AppController extends AbstractController
             'controller_name' => 'AppController',
         ]);
     }
+
+    #[Route('/test', name: 'app_test_count')]
+    public function countTest(Request $request, PersonRepository $personRepository): Response
+    {
+        $queryBuilder = $personRepository->createQueryBuilder('p');
+        $queryBuilder
+            ->select("JSONB_ARRAY_ELEMENTS(JSON_GET_FIELD(p.info, 'languages')) as language, count('*') as cnt")
+            ->addGroupBy('language')
+            ->orderBy('language');
+
+        $result = $queryBuilder->getQuery()->getArrayResult();
+
+        return $this->render('app/test.html.twig', [
+            'result' => $result,
+        ]);
+    }
 }

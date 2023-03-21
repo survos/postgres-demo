@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h3>List of languages</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Language</th>
+            <th>Speaks, count</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in result %}
+            <tr>
+                <td>{{ item.language|replace({'"' : ''}) |language_name }}</td>
+                <td>{{ item.cnt }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
