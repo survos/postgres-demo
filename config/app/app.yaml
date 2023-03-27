@@ -1,0 +1,5 @@
+# app.yaml
+  imports:
+    - { resource: user.yml }
+    - { resource: person.yml }
+

@@ -1,0 +1,6 @@
+person:
+  columns:
+    - {name: name}
+    - {name: languages, jsonb_field: info, type: array, property: languages}
+    - {name: country, jsonb_field: info, type: string, property: country}
+
