@@ -62,6 +62,14 @@ class AppController extends AbstractController
 //            $queryBuilder->andWhere($expr);
         $sql = $queryBuilder->getQuery()->getSQL();
 
+//        $filters = explode(',', $defaults['languages']);
+        $filters = $defaults['languages'];
+        $orX = $queryBuilder->expr()->orX();
+        foreach ($filters as $filter) {
+            $orX->add($queryBuilder->expr()->eq("JSONB_EXISTS(p.info, '" . $filter . "')", 'true'));
+        }
+        $queryBuilder->where($orX);
+
         return $this->render('app/index.html.twig', [
             'languages' => $defaults['languages'],
             'countries' => $defaults['countries'],
