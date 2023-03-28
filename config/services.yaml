@@ -20,5 +20,12 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    api_platform.doctrine.orm.query_extension.pagination:
+        class: App\Paginator\SlicePaginationExtension
+        tags: 
+          - {name : api_platform.doctrine.orm.query_extension.collection, priority: -65}
+        autowire: true
+    App\Paginator\SlicePaginationExtension:
+        alias: api_platform.doctrine.orm.query_extension.pagination
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
