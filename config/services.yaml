@@ -25,7 +25,7 @@ services:
         tags: 
           - {name : api_platform.doctrine.orm.query_extension.collection, priority: -65}
         autowire: true
-    ApiPlatform\Doctrine\Orm\Extension\PaginationExtension:
+    App\Paginator\SlicePaginationExtension:
         alias: api_platform.doctrine.orm.query_extension.pagination
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
